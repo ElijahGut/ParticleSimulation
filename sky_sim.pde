@@ -3,7 +3,7 @@ import java.util.Random;
 ArrayList<Ball> balls = new ArrayList<Ball>();
 
 // GLOBAL PARAMS
-int N = 50;
+int N = 30;
 
 // button vars
 String currentMode = "REC";
