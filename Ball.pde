@@ -13,8 +13,41 @@ class Ball {
     this.ind = ind;
   }
   
+  public Ball() {
+    
+  }
+  
   void drawBall() {
     ellipse(this.x,this.y,this.r*2, this.r*2);
+  }
+  
+  boolean isTriInterior() {
+    // width/2, (height/2)-height/4, (width/2)-width/4, (height/2)+height/4, (width/2)+width/4, (height/2)+height/4
+    float A = Utils.calcArea(width/2, (height/2)-height/4, (width/2)-width/4, (height/2)+height/4, (width/2)+width/4, (height/2)+height/4);
+    float A1 = Utils.calcArea(this.x, this.y, width/2, (height/2)-height/4, (width/2)-width/4, (height/2)+height/4);
+    float A2 = Utils.calcArea(this.x, this.y, width/2, (height/2)-height/4, (width/2)+width/4, (height/2)+height/4);
+    float A3 = Utils.calcArea(this.x, this.y, (width/2)-width/4, (height/2)+height/4, (width/2)+width/4, (height/2)+height/4);
+    return (A1+A2+A3) == A;
+  }
+  
+  boolean isCircInterior() {
+    float rad = width/4;
+    return (dist(this.x, this.y, width/2, height/2)) < rad;
+  }
+  
+  void checkCollision(float m) {
+    if (this.v[0] > 0) {
+        this.x -= m*this.r;
+    } 
+    if (this.v[1] > 0) {
+      this.y -= m*this.r;
+    }
+    if (this.v[0] < 0) {
+      this.x += m*this.r;
+    }
+    if (this.v[1] < 0) {
+      this.y += m*this.r;
+    }
   }
   
   void checkCollisionRectangle(int wlo, int hlo, int w, int h) {
@@ -37,38 +70,6 @@ class Ball {
       this.hit = true;
       this.y = hlo;
       this.v[1] = -this.v[1];
-    }
-  }
-  
-  float calcArea(int x1, int y1, int x2, int y2, int x3, int y3) {
-    return abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2.0);
-  }
-  
-  boolean isTriInterior() {
-    float A = calcArea(width/2, 5, width/8, height-5, (width/8)*7, height-5);
-    float A1 = calcArea(this.x, this.y, width/2, 5, width/8, height-5);
-    float A2 = calcArea(this.x, this.y, width/2, 5, (width/8)*7, height-5);
-    float A3 = calcArea(this.x, this.y, width/8, height-5, (width/8)*7, height-5);
-    return (A1+A2+A3) == A;
-  }
-  
-  boolean isCircInterior() {
-    float rad = width/4;
-    return (dist(this.x, this.y, width/2, height/2)) < rad;
-  }
-  
-  void checkCollision(float m) {
-    if (this.v[0] > 0) {
-        this.x -= m*this.r;
-    } 
-    if (this.v[1] > 0) {
-      this.y -= m*this.r;
-    }
-    if (this.v[0] < 0) {
-      this.x += m*this.r;
-    }
-    if (this.v[1] < 0) {
-      this.y += m*this.r;
     }
   }
   
